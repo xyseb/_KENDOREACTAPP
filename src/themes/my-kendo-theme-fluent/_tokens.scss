@@ -1,0 +1,182 @@
+// Compatible with @progress/kendo-theme-fluent v.7.2.0
+
+:root {
+  --tb-kendo-border-radius-md: 0.125rem;
+  --tb-kendo-primary-10: #8A9BC1;
+  --tb-kendo-primary-20: #778CBB;
+  --tb-kendo-primary-30: #647CB4;
+  --tb-kendo-primary-40: #506BAF;
+  --tb-kendo-primary-50: #465FA0;
+  --tb-kendo-primary-60: #3C5490;
+  --tb-kendo-primary-70: #334780;
+  --tb-kendo-primary-80: #2A3C6F;
+  --tb-kendo-primary-90: #22325E;
+  --tb-kendo-primary-100: #22315F;
+  --tb-kendo-primary-110: #22305E;
+  --tb-kendo-primary-120: #1A264C;
+  --tb-kendo-primary-130: #131C3A;
+  --tb-kendo-primary-140: #0C1227;
+  --tb-kendo-primary-150: #060914;
+  --tb-kendo-primary-160: #000000;
+  --tb-kendo-primary-170: #000000;
+  --tb-kendo-primary-180: #000000;
+  --tb-kendo-primary-190: #000000;
+  --tb-kendo-primary-200: #000000;
+  --tb-kendo-primary-210: #000000;
+  --tb-kendo-primary-220: #000000;
+  --tb-kendo-neutral-10: #faf9f8;
+  --tb-kendo-neutral-20: #f3f2f1;
+  --tb-kendo-neutral-30: #edebe9;
+  --tb-kendo-neutral-40: #e1dfdd;
+  --tb-kendo-neutral-50: #d2d0ce;
+  --tb-kendo-neutral-60: #c8c6c4;
+  --tb-kendo-neutral-70: #bdbbb8;
+  --tb-kendo-neutral-80: #b3b0ad;
+  --tb-kendo-neutral-90: #a19f9d;
+  --tb-kendo-neutral-100: #979593;
+  --tb-kendo-neutral-110: #8a8886;
+  --tb-kendo-neutral-120: #797775;
+  --tb-kendo-neutral-130: #605e5c;
+  --tb-kendo-neutral-140: #484644;
+  --tb-kendo-neutral-150: #3b3a39;
+  --tb-kendo-neutral-160: #323130;
+  --tb-kendo-neutral-170: #292827;
+  --tb-kendo-neutral-180: #252423;
+  --tb-kendo-neutral-190: #201f1e;
+  --tb-kendo-neutral-200: #1b1a19;
+  --tb-kendo-neutral-210: #161514;
+  --tb-kendo-neutral-220: #11100f;
+  --tb-kendo-tertiary-100: #2b88d8;
+  --tb-kendo-error-100: #f58791;
+  --tb-kendo-success-100: #5fd255;
+  --tb-kendo-warning-100: #ffc80a;
+  --tb-kendo-info-100: #0a7eff;
+  --tb-kendo-body-bg: #ffffff;
+  --tb-kendo-series-a-100: #0099bc;
+  --tb-kendo-series-b-100: #e74856;
+  --tb-kendo-series-c-100: #ffb900;
+  --tb-kendo-series-d-100: #0078d7;
+  --tb-kendo-series-e-100: #8764b8;
+  --tb-kendo-series-f-100: #00cc6a;
+  --tb-kendo-box-shadow-depth-1: 0px 0.3px 0.9px 0 #0000001a, 0px 1.6px 3.6px 0 #00000021;
+  --tb-kendo-box-shadow-depth-2: 0px 0.6px 1.8px 0 #0000001a, 0px 3.2px 7.2px 0 #00000021;
+  --tb-kendo-box-shadow-depth-3: 0px 0.9px 2.7px 0 #0000001a, 0px 4.8px 10.8px 0 #00000021;
+  --tb-kendo-box-shadow-depth-4: 0px 1.2px 3.6px 0 #0000001a, 0px 6.4px 14.4px 0 #00000021;
+
+  --kendo-border-radius-md: var(--tb-kendo-border-radius-md);
+  --kendo-primary-10: var(--tb-kendo-primary-10);
+  --kendo-primary-20: var(--tb-kendo-primary-20);
+  --kendo-primary-30: var(--tb-kendo-primary-30);
+  --kendo-primary-40: var(--tb-kendo-primary-40);
+  --kendo-primary-50: var(--tb-kendo-primary-50);
+  --kendo-primary-60: var(--tb-kendo-primary-60);
+  --kendo-primary-70: var(--tb-kendo-primary-70);
+  --kendo-primary-80: var(--tb-kendo-primary-80);
+  --kendo-primary-90: var(--tb-kendo-primary-90);
+  --kendo-primary-100: var(--tb-kendo-primary-100);
+  --kendo-primary-110: var(--tb-kendo-primary-110);
+  --kendo-primary-120: var(--tb-kendo-primary-120);
+  --kendo-primary-130: var(--tb-kendo-primary-130);
+  --kendo-primary-140: var(--tb-kendo-primary-140);
+  --kendo-primary-150: var(--tb-kendo-primary-150);
+  --kendo-primary-160: var(--tb-kendo-primary-160);
+  --kendo-primary-170: var(--tb-kendo-primary-170);
+  --kendo-primary-180: var(--tb-kendo-primary-180);
+  --kendo-primary-190: var(--tb-kendo-primary-190);
+  --kendo-primary-200: var(--tb-kendo-primary-200);
+  --kendo-primary-210: var(--tb-kendo-primary-210);
+  --kendo-primary-220: var(--tb-kendo-primary-220);
+  --kendo-neutral-10: var(--tb-kendo-neutral-10);
+  --kendo-neutral-20: var(--tb-kendo-neutral-20);
+  --kendo-neutral-30: var(--tb-kendo-neutral-30);
+  --kendo-neutral-40: var(--tb-kendo-neutral-40);
+  --kendo-neutral-50: var(--tb-kendo-neutral-50);
+  --kendo-neutral-60: var(--tb-kendo-neutral-60);
+  --kendo-neutral-70: var(--tb-kendo-neutral-70);
+  --kendo-neutral-80: var(--tb-kendo-neutral-80);
+  --kendo-neutral-90: var(--tb-kendo-neutral-90);
+  --kendo-neutral-100: var(--tb-kendo-neutral-100);
+  --kendo-neutral-110: var(--tb-kendo-neutral-110);
+  --kendo-neutral-120: var(--tb-kendo-neutral-120);
+  --kendo-neutral-130: var(--tb-kendo-neutral-130);
+  --kendo-neutral-140: var(--tb-kendo-neutral-140);
+  --kendo-neutral-150: var(--tb-kendo-neutral-150);
+  --kendo-neutral-160: var(--tb-kendo-neutral-160);
+  --kendo-neutral-170: var(--tb-kendo-neutral-170);
+  --kendo-neutral-180: var(--tb-kendo-neutral-180);
+  --kendo-neutral-190: var(--tb-kendo-neutral-190);
+  --kendo-neutral-200: var(--tb-kendo-neutral-200);
+  --kendo-neutral-210: var(--tb-kendo-neutral-210);
+  --kendo-neutral-220: var(--tb-kendo-neutral-220);
+  --kendo-tertiary-100: var(--tb-kendo-tertiary-100);
+  --kendo-error-100: var(--tb-kendo-error-100);
+  --kendo-success-100: var(--tb-kendo-success-100);
+  --kendo-warning-100: var(--tb-kendo-warning-100);
+  --kendo-info-100: var(--tb-kendo-info-100);
+  --kendo-body-bg: var(--tb-kendo-body-bg);
+  --kendo-series-a-100: var(--tb-kendo-series-a-100);
+  --kendo-series-b-100: var(--tb-kendo-series-b-100);
+  --kendo-series-c-100: var(--tb-kendo-series-c-100);
+  --kendo-series-d-100: var(--tb-kendo-series-d-100);
+  --kendo-series-e-100: var(--tb-kendo-series-e-100);
+  --kendo-series-f-100: var(--tb-kendo-series-f-100);
+  --kendo-box-shadow-depth-1: var(--tb-kendo-box-shadow-depth-1);
+  --kendo-box-shadow-depth-2: var(--tb-kendo-box-shadow-depth-2);
+  --kendo-box-shadow-depth-3: var(--tb-kendo-box-shadow-depth-3);
+  --kendo-box-shadow-depth-4: var(--tb-kendo-box-shadow-depth-4);
+
+  --kendo-font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  --kendo-font-size: 14px;
+  --kendo-font-weight: 400;
+  --kendo-line-height: 1.4285714286;
+}
+
+$tb-typography: (
+  kendo-default-typography: (
+      font-family: '"Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif',
+      font-size: 14px,
+      font-weight: 400,
+      line-height: 1.4285714286,
+    ),
+);
+
+@mixin typography-classes ($typography) {
+  @each $selector, $property in $typography {
+    &-#{$selector} {
+      @each $propName, $propValue in $property {
+        #{$propName}: #{$propValue};
+      }
+    } &-#{$selector}-important {
+      @each $propName, $propValue in $property {
+        #{$propName}: $propValue !important;
+      }
+    }
+  }
+}
+
+$tb-effects: (
+  kendo-box-shadow-depth-1: (
+      box-shadow: (0px 0.3px 0.9px 0 #0000001a, 0px 1.6px 3.6px 0 #00000021),  ),
+  kendo-box-shadow-depth-2: (
+      box-shadow: (0px 0.6px 1.8px 0 #0000001a, 0px 3.2px 7.2px 0 #00000021),  ),
+  kendo-box-shadow-depth-3: (
+      box-shadow: (0px 0.9px 2.7px 0 #0000001a, 0px 4.8px 10.8px 0 #00000021),  ),
+  kendo-box-shadow-depth-4: (
+      box-shadow: (0px 1.2px 3.6px 0 #0000001a, 0px 6.4px 14.4px 0 #00000021),  ),
+  tb-internal-none-effects: (
+      box-shadow: (none), filter: (none), backdrop-filter: (none),  ),
+);
+
+@mixin effects-classes ($effects) {
+  @each $selector, $property in $effects {
+    &-#{$selector} {
+      @each $propName, $propValue in $property {
+        #{$propName}: $propValue;
+      }
+    } &-#{$selector}-important {
+      @each $propName, $propValue in $property {
+        #{$propName}: $propValue !important;
+      }
+    }
+  }
+}
