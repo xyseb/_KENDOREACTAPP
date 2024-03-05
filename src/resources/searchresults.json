@@ -1,0 +1,5 @@
+[
+    {"id": "abc1", "nom": "Deschamps", "prenom": "Sébastien", "age": 44},
+    {"id": "def2", "nom": "Doe", "prenom": "John", "age": 45},
+    {"id": "fgh3", "nom": "Hue", "prenom": "Robert", "age": 46}
+]

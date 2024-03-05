@@ -19,7 +19,7 @@ export const Header = (props: any) => {
         <header className="header">
             <div className="nav-container">
                 <div className="menu-button">
-                    <SvgIcon icon={menuIcon} onClick={onButtonClick} />
+                    <SvgIcon icon={menuIcon} onClick={onButtonClick} tabIndex={1000} />
                 </div>
 
                 <div className="title">
@@ -33,6 +33,7 @@ export const Header = (props: any) => {
                         data={locales}
                         value={currentLanguage}
                         onChange={onLanguageChange}
+                        tabIndex={1001}
                     />
                 </div>
             </div>

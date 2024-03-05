@@ -54,7 +54,8 @@ export default function DrawerRouterContainer(props: any): JSX.Element {
                 items={items.map((item, index) => ({
                     ...item,
                     text: item.name,
-                    selected: index === selectedId
+                    selected: index === selectedId,
+                    tabIndex: index + 2000
                 }))
                 }
                 position='start'

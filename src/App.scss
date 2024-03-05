@@ -102,6 +102,10 @@ a {
     .k-drawer-item {
         user-select: none;
     }
+
+    .k-drawer-content > div {
+        min-height: $header-height-calc;
+    }
 }
 
 .card-container {
