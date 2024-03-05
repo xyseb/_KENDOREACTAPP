@@ -64,7 +64,7 @@ export default function DrawerRouterContainer(props: any): JSX.Element {
                 onOverlayClick={handleClick}
                 onSelect={handleSelect}
             >
-                <DrawerContent style={{ height: 1066 }}>
+                <DrawerContent>
                     {props.children}
                 </DrawerContent>
             </Drawer>
