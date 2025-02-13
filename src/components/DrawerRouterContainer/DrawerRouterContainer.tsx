@@ -5,14 +5,17 @@ import { Drawer, DrawerContent } from '@progress/kendo-react-layout';
 //     useLocalization
 // } from "@progress/kendo-react-intl";
 import { Header } from './../Header/Header';
-import { gridIcon, calendarIcon, userIcon, infoCircleIcon} from '@progress/kendo-svg-icons'
+import { homeIcon, calendarIcon, userIcon, infoCircleIcon, gridLayoutIcon, thumbnailsUpIcon } from '@progress/kendo-svg-icons'
 
 const items = [
-    { name: 'home', svgIcon: gridIcon, route: '/home', selected: true },
+    { name: 'home', svgIcon: homeIcon, route: '/home', selected: true },
     { name: 'simple', svgIcon: calendarIcon, route: '/simple', selected: false },
     { name: 'multi', svgIcon: userIcon, route: '/multi', selected: false },
     { separator: true },
-    { name: 'info', svgIcon: infoCircleIcon, route: '/test', selected: false }
+    { name: 'info', svgIcon: infoCircleIcon, route: '/test', selected: false },
+    { separator: true },
+    { name: 'gridHelper', svgIcon: gridLayoutIcon, route: '/grid-helper', selected: false },
+    { name: 'tabStrip', svgIcon: thumbnailsUpIcon, route: '/tabstrip', selected: false }
 ];
 
 export default function DrawerRouterContainer(props: any): JSX.Element {
