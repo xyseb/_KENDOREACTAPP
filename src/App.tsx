@@ -7,6 +7,8 @@ import SimplePage from './pages/SimplePage';
 import MultiNavPage from './pages/MultiNavPage';
 import TestPage from './pages/TestPage';
 import GridHelperPage from './pages/GridHelperPage';
+import GridHelperPage2 from './pages/GridHelperPage2';
+import GridHelperWrapperPage from './pages/GridHelpeWrapperPage';
 import TabStripPage from './pages/TabStripPage';
 import './App.scss'
 
@@ -22,6 +24,8 @@ export default function App(): JSX.Element {
                   <Route path="/multi" element={<MultiNavPage />} />
                   <Route path="/test" element={<TestPage />} />
                   <Route path="/grid-helper" element={<GridHelperPage />} />
+                  <Route path="/grid-helper2" element={<GridHelperPage2 />} />
+                  <Route path="/grid-helper-wrapper" element={<GridHelperWrapperPage />} />
                   <Route path="/tabstrip" element={<TabStripPage />} />
                   <Route path="*" element={<Navigate to={"/home"}/>} />
               </Routes>

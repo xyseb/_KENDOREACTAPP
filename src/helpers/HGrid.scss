@@ -1,0 +1,208 @@
+﻿@use "@/Components/_Common/_Styles/vars" as *;
+
+.grid-helper-component.grid-helper-component2 {
+    &.k-grid {
+        flex-grow: 1;
+
+        .k-table {
+            width: 100% !important; // important pour cassé le style width forcé sur <table> => TODO Verifier si encore à faire suite màj kendo-react
+        }
+        // bordure de colonne lorsque la colonne est locked
+        .k-grid-content-sticky {
+            border: 0;
+        }
+
+        .k-table-row.k-master-row {
+            .k-table-td:not(.k-group-cell) {
+                border: 1px solid $couleur-gris-10;
+            }
+        }
+        // 1ère DIV (en haut à droite)
+        // zone de recherche, boutons exports
+        .k-toolbar {
+            background-color: transparent;
+            white-space: nowrap;
+            margin-left: auto;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            border: 0;
+
+            .external-filter-input {
+                border: 1px solid $hgrid-toolbar-border;
+                border-right: 0 !important;
+                border-radius: 0;
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+                height: 34px;
+                color: $couleur-bleu-fonce;
+            }
+
+            .external-filter-input-loupe {
+                width: 34px;
+                height: 34px;
+                transform: scaleX(-1); // on retourne l'image verticalement (les bords droit et gauche seront inversés)
+                border-right: 0 !important;
+                border-top: 1px solid $hgrid-toolbar-border;
+                border-left: 1px solid $hgrid-toolbar-border;
+                border-bottom: 1px solid $hgrid-toolbar-border;
+                background-color: $couleur-blanc;
+                color: $couleur-bleu-clair;
+                padding: 0 5px;
+                border-bottom-left-radius: 5px;
+                border-top-left-radius: 5px;
+            }
+
+            .search-panel {
+                display: flex;
+                flex-flow: row nowrap;
+            }
+
+            .control-panel {
+                display: flex;
+                flex-flow: row nowrap;
+                gap: 8px;
+
+                .toolbar-button {
+                    width: 34px;
+                    height: 34px;
+                    border-radius: 5px;
+                    padding: 0;
+                    background-color: $hgrid-toolbar-button;
+                    border-color: $hgrid-toolbar-border;
+                }
+            }
+        }
+        // 2ème DIV (en haut à gauche, prend le reste de la ligne)
+        .k-grouping-header {
+            height: 51px; // taille de la div 1 qui est en absolue alors qu'elle devrait etre inclu dans cette div
+            background-color: $hgrid-toolbar-panel;
+            color: $couleur-blanc;
+        }
+
+        .k-table-th {
+            align-content: center;
+            padding: 0;
+            padding-left: $padding;
+            padding-right: $padding;
+            height: 30px !important; // obligatoire a cause du bouton de filtre
+
+            .k-cell-inner {
+                margin-block: initial;
+                margin-inline: initial;
+
+                .k-link {
+                    padding-inline: initial;
+                    padding-block: initial;
+                }
+            }
+
+            &.without-sub-column {
+                align-content: flex-end;
+
+                .k-cell-inner {
+                    .k-link {
+                        height: 30px !important; // obligatoire a cause du bouton de filtre
+                    }
+                }
+            }
+        }
+
+        .k-grid-aria-root {
+            .k-grid-header {
+                background-color: $hgrid-header-background;
+
+                .k-header {
+                    background-color: $hgrid-header-background;
+                    color: $couleur-blanc;
+
+                    .k-cell-inner {
+                        color: $couleur-blanc;
+                    }
+
+                    .k-grid-header-menu.k-grid-column-menu {
+                        margin-right: 0;
+
+                        &:hover {
+                            background-color: $hgrid-header-menu-background;
+                        }
+
+                        .k-icon {
+                            color: $couleur-blanc;
+                        }
+                    }
+
+                    .k-sort-icon {
+                        .k-icon {
+                            color: $couleur-orange;
+                        }
+                    }
+
+                    &.active .k-grid-column-menu {
+                        .k-icon {
+                            color: $couleur-orange;
+                        }
+                    }
+                }
+            }
+
+            .k-grid-container {
+                flex: 1 0 0;
+            }
+
+            .k-grid-footer {
+                background-color: $hgrid-footer-background;
+
+                .k-grid-footer-wrap {
+                    border-right: 1px solid $couleur-bleu-clair-highlight !important;
+                }
+
+                .k-table-tfoot {
+                    background-color: $hgrid-footer-background;
+                }
+            }
+        }
+        /* couleur des bordure de l'en-tete */
+        th.k-table-th.k-header,
+        th.k-table-th.k-header.k-filterable {
+            border-color: $couleur-bleu-clair-highlight !important;
+        }
+        /* derniere bordure de l'en-tete */
+        .k-grid-header-wrap {
+            border-right: 1px solid $couleur-bleu-clair-highlight !important;
+        }
+    }
+}
+/* Gestion de la popup Afficher/cacher les colonnes */
+.grid-helper-configurator-wrap-element {
+    background-color: $couleur-blanc;
+    border: 2px solid $couleur-hestia-convive-primary;
+    border-radius: $radius;
+
+    .popup-title {
+        background-color: $couleur-border-backgound-light;
+        padding: $padding;
+        font-weight: bold;
+    }
+
+    .popup-content {
+        padding: $padding-m;
+
+        .parent-title {
+            margin-top: $padding;
+            color: $couleur-hestia-convive-primary;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            margin: $margin;
+
+            .label {
+                margin-left: $margin;
+            }
+        }
+    }
+}

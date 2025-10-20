@@ -1,5 +1,6 @@
 import { Grid, GridColumn as Column, GridHeaderCellProps, GridCustomFooterCellProps } from '@progress/kendo-react-grid';
-import { GridHelper } from '../helpers/GridHelper';
+//import { GridHelper } from '../helpers/GridHelper';
+import { GridHelper2 } from '../helpers/GridHelper2';
 import products from '../resources/gd-products.ts';
 import './GridHelperPage.scss'
 import { render } from 'react-dom';
@@ -35,7 +36,7 @@ export default function GridHelperPage(): JSX.Element {
         );
       };
 
-      const TotalFooterCustomCell = (props: GridCustomFooterCellProps) => {
+    const TotalFooterCustomCell = (props: GridCustomFooterCellProps) => {
         const field = props.field || '';
         const min = products.reduce((acc, current) => Math.min(acc, current[field]), Number.MAX_VALUE);
         const max = products.reduce((acc, current) => Math.max(acc, current[field]), 0);
@@ -59,7 +60,7 @@ export default function GridHelperPage(): JSX.Element {
         <div className="grid-helper-page">
             <h1>Welcome grid-helper-page</h1>
             <br/>
-            <GridHelper
+            <GridHelper2
                 toolbarSettings={{
                     filterHighlights: true,
                     expandCollapseAllButton: true,
@@ -74,11 +75,11 @@ export default function GridHelperPage(): JSX.Element {
                     take: 10,
                     sort: [
                         {
-                            field: 'ProductName',
-                            dir: 'desc'
+                            field: 'Id',
+                            dir: 'asc'
                         }
                     ],
-                    group: [{ field: 'Category.CategoryName', dir: 'asc' }]
+                    //group: [{ field: 'Category.CategoryName', dir: 'asc' }]
                 }}
                 onSelectedItemsChange={onSelectedItemsChange}
                 filterable={true}
@@ -102,7 +103,7 @@ export default function GridHelperPage(): JSX.Element {
                     <Column field="UnitsInStock" title="In stock" filter="numeric" width="160px" />
                     <Column field="Discontinued" filter="boolean" width="180px" />
                 </Grid>
-            </GridHelper>
+            </GridHelper2>
         </div>
     );
 }

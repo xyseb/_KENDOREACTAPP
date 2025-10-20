@@ -15,7 +15,10 @@ const items = [
     { name: 'info', svgIcon: infoCircleIcon, route: '/test', selected: false },
     { separator: true },
     { name: 'gridHelper', svgIcon: gridLayoutIcon, route: '/grid-helper', selected: false },
-    { name: 'tabStrip', svgIcon: thumbnailsUpIcon, route: '/tabstrip', selected: false }
+    { name: 'gridHelper2', svgIcon: gridLayoutIcon, route: '/grid-helper2', selected: false },
+    { name: 'tabStrip', svgIcon: thumbnailsUpIcon, route: '/tabstrip', selected: false },
+    { separator: true },
+    { name: 'gridHelperWrapper', svgIcon: gridLayoutIcon, route: '/grid-helper-wrapper', selected: false },
 ];
 
 export default function DrawerRouterContainer(props: any): JSX.Element {

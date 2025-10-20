@@ -1,0 +1,42 @@
+﻿@use "@/Components/_Common/_Styles/vars" as *;
+
+.vue-absences {
+    .top-controls {
+        margin-bottom: $margin;
+
+        .controls {
+            display: flex;
+            flex-flow: row wrap;
+        }
+    }
+
+    .vue-absences-bouton-enregistrer {
+        margin-top: 20px;
+    }
+
+    .vue-absences-bouton-annuler {
+        margin-top: 20px;
+    }
+
+    .vue-absences-chargement {
+        height: calc( 100vh - 150px);
+    }
+
+    .vue-absences-erreur {
+        height: calc( 100vh - 150px);
+    }
+    // bordure pour delimiter les colonnes par dates
+    .k-table-td.first-col {
+        border-left: 1px solid $couleur-hestia-convive-primary !important;
+    }
+
+    svg.concerne-passerelle,
+    svg.warning {
+        vertical-align: text-bottom;
+    }
+    /* centrage du texte pour l'en-tete des dates */
+    th.group-header.k-table-th,
+    th.group-header-light.k-table-th {
+        justify-content: center;
+    }
+}
