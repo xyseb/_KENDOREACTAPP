@@ -13,6 +13,7 @@ const items = [
     { name: 'multi', svgIcon: userIcon, route: '/multi', selected: false },
     { separator: true },
     { name: 'info', svgIcon: infoCircleIcon, route: '/test', selected: false },
+    { name: 'info', svgIcon: infoCircleIcon, route: '/test-dialog', selected: false },
     { separator: true },
     { name: 'gridHelper', svgIcon: gridLayoutIcon, route: '/grid-helper', selected: false },
     { name: 'gridHelper2', svgIcon: gridLayoutIcon, route: '/grid-helper2', selected: false },
