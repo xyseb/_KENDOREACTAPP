@@ -9,14 +9,14 @@ import {
     gearIcon,
     columnsIcon
 } from '@progress/kendo-svg-icons';
-import { Checkbox, Input } from '@progress/kendo-react-inputs';
+import { Checkbox, Input, InputChangeEvent } from '@progress/kendo-react-inputs';
 import { Popup } from '@progress/kendo-react-popup';
 import { GridPDFExport } from '@progress/kendo-react-pdf';
 import { ExcelExport } from '@progress/kendo-react-excel-export';
 import {
     Grid,
     GridColumn as Column,
-    GridToolbar,
+    GridToolbar
     GridProps,
     GridGroupExpandChangeEvent,
     GridSelectionChangeEvent,
@@ -25,6 +25,22 @@ import {
 } from '@progress/kendo-react-grid';
 import { SelectDescriptor, GroupExpandDescriptor } from '@progress/kendo-react-data-tools';
 import { GroupResult, State, groupBy } from '@progress/kendo-react-all';
+
+/** TYPAGES */
+interface IGridHelperToolbarSettings {
+    externalFilter?: boolean;
+    expandCollapseAllButton?: boolean;
+    excelExportButton?: boolean;
+    pdfExportButton?: boolean;
+    showColumnsConfigurator?: boolean;
+    showFeaturesConfigurator?: boolean;
+    filterHighlights?: boolean;
+}
+
+interface GridHelperOwnProps extends GridProps {
+    toolbarSettings?: IGridHelperToolbarSettings;
+}
+
 
 export function getNestedValue(fieldName: string, dataItem: any) {
     const path = (fieldName || '').split('.');
@@ -132,7 +148,7 @@ const getGridFieldColumns = (gridChildren: React.ReactNode[]): any[] => {
 
 const TOOLBAR_BUTTON_TYPE: NonNullable<ButtonProps['themeColor']> = 'primary';
 
-export const GridHelper = (props) => {
+export const GridHelper = (props: GridHelperOwnProps) => {
     const {
         externalFilter,
         expandCollapseAllButton,
