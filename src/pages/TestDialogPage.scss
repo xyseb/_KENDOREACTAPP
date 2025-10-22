@@ -1,0 +1,24 @@
+.test-dialog-page {
+    background-color: aqua; 
+}
+    
+.sized {
+    background-color: red; 
+    width:200px;        
+    height:200px;        
+}
+
+.my-dialog {
+    border: 1px solid lime;
+}
+
+.k-dialog {
+    // Ajout de limite de taille d'une popup pour ne jamais dépasser la taille de l'écran
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+
+    .k-dialog-content {
+
+        background-color: aqua;    
+    }
+}
