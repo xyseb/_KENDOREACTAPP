@@ -7,16 +7,17 @@ import {
     chevronDoubleDownIcon,
     chevronDoubleRightIcon,
     gearIcon,
-    columnsIcon
+    columnsIcon,
+    SVGIcon
 } from '@progress/kendo-svg-icons';
-import { Checkbox, Input, InputChangeEvent } from '@progress/kendo-react-inputs';
+import { Checkbox, Input, InputChangeEvent, CheckboxChangeEvent } from '@progress/kendo-react-inputs';
 import { Popup } from '@progress/kendo-react-popup';
 import { GridPDFExport } from '@progress/kendo-react-pdf';
 import { ExcelExport } from '@progress/kendo-react-excel-export';
 import {
     Grid,
     GridColumn as Column,
-    GridToolbar
+    GridToolbar,
     GridProps,
     GridGroupExpandChangeEvent,
     GridSelectionChangeEvent,
@@ -26,21 +27,78 @@ import {
 import { SelectDescriptor, GroupExpandDescriptor } from '@progress/kendo-react-data-tools';
 import { GroupResult, State, groupBy } from '@progress/kendo-react-all';
 
-/** TYPAGES */
+/** Interface des settings de gestion du sous-composant GridToolbar */
 interface IGridHelperToolbarSettings {
+    /** Avec/Sans recherche textuel dans la grille */
     externalFilter?: boolean;
+    /** Avec/Sans bouton de collapse des groupes (groupements) */
     expandCollapseAllButton?: boolean;
+    /** Avec/Sans bouton export excel */
     excelExportButton?: boolean;
+    /** Avec/Sans bouton export pdf */
     pdfExportButton?: boolean;
+    /** Avec/Sans bouton/popup de configurateur de colonne */
     showColumnsConfigurator?: boolean;
+    /** Avec/Sans bouton/popup de configurateur de fonctionnalité */
     showFeaturesConfigurator?: boolean;
+    /** Avec/Sans mise en couleur des elements de recherche textuel */
     filterHighlights?: boolean;
 }
 
-interface GridHelperOwnProps extends GridProps {
+/** Interface des props/children du composant */
+interface IGridHelperOwnProps extends GridProps {
+    /** Les settings du sous-composant GridToolbar */
     toolbarSettings?: IGridHelperToolbarSettings;
 }
 
+/** Interface des props/children du composant ExternalFilter de la GridToolbar */
+interface IGridHelperExternalFilterOwnProps {
+    /** value de l'input de recherche textuelle */
+    filterValue: string | null;
+    /** le onChange déclenché sur le changement de valeur de l'input de recherche textuelle */
+    onChange: (ev: InputChangeEvent) => void;
+}
+
+/** 
+ * Interface générique des props/children du composant Bouton de base incluant un popup afficher
+ * au click pour proposer une liste d'options cochables
+ */
+interface IGridHelperConfiguratorButtonBase<T> {
+    /** la listes des options/valeur de configuration représenté par des label/checkbox */
+    options: T ;
+    /** titre pour l'infobulle au survol et le titre de popup du bouton configurateur */
+    title: string;
+    /** l'icone de bouton configurateur */
+    icon: SVGIcon;
+    /** 
+     * fn de traitement durant le checkbox onChange (spécifique à l'option).
+     * @param setting: l'option que represente la checkbox
+     * @param value: la valeur de l'option
+     */
+    onChange: (setting: string, value: boolean) => void;
+}
+
+/** Interface des props/children du composant {@link ColumnsButton} */
+interface IGridHelperColumnsButtonOwnProps extends IGridHelperConfiguratorButtonBase<Record<string, boolean>> {
+}
+
+/** Interface des props/children du composant {@link ConfiguratorButton} */
+interface IGridHelperConfiguratorButtonOwnProps extends IGridHelperConfiguratorButtonBase<Pick<GridProps, 'filterable' | 'selectable' | 'sortable' | 'groupable' | 'pageable'>> {
+}
+
+/** Interface des props/children du composant {@link ExpandCollapseButton} de collapse des groupes (groupements) */
+interface GridHelperExpandCollapseButtonOwnProps {
+    /**
+     * Callback de l'event onClick du bouton
+     * @see {@link GridHelper} pour plus d'informations sur les fonctions `onGroupsExpand` et  `onGroupsCollapse`.
+     * @returns rien mais fait un setCollapsedGroup du state internet de GridHeler
+     */
+    onClick: () => void;
+    /**
+     * @see {@link GridHepler} pour plus d'informations dur L'état de collapse des groupes (groupements)
+     */
+    collapse: boolean;
+}
 
 export function getNestedValue(fieldName: string, dataItem: any) {
     const path = (fieldName || '').split('.');
@@ -100,7 +158,7 @@ const getNumberOfItems = (data: any[], select: SelectDescriptor): number => {
     let count = 0;
     data.forEach((item) => {
         if (item.items) {
-            count += getNumberOfItems(item.items, select);
+            count = count + getNumberOfItems(item.items, select);
         } else {
             count++;
         }
@@ -148,7 +206,7 @@ const getGridFieldColumns = (gridChildren: React.ReactNode[]): any[] => {
 
 const TOOLBAR_BUTTON_TYPE: NonNullable<ButtonProps['themeColor']> = 'primary';
 
-export const GridHelper = (props: GridHelperOwnProps) => {
+export const GridHelper = (props: Readonly<IGridHelperOwnProps>) => {
     const {
         externalFilter,
         expandCollapseAllButton,
@@ -159,7 +217,7 @@ export const GridHelper = (props: GridHelperOwnProps) => {
         filterHighlights
     } = props.toolbarSettings ?? {};
     const GridProps = props.children.props;
-    const [filterValue, setFilterValue] = React.useState<String | null>(null);
+    const [filterValue, setFilterValue] = React.useState<string | null>(null); // Fix Hestia de React.useState<String | null>(null);
 
     // Needed for toggling features from the configurator
     const [defaultConfiguration, setDefaultConfiguration] = React.useState({
@@ -342,7 +400,7 @@ export const GridHelper = (props: GridHelperOwnProps) => {
         );
     }, [select, finalData.data]);
 
-    const onExternalFilterChange = (ev) => {
+    const onExternalFilterChange = (ev: InputChangeEvent):void => { // Fix hestia (ev) => {
         const value = ev.value;
         setFilterValue(ev.value);
         let visibleColumnsFields = {};
@@ -547,7 +605,7 @@ export const GridHelper = (props: GridHelperOwnProps) => {
 };
 
 // ExternalFilter
-const ExternalFilter = (props) => {
+const ExternalFilter = (props: Readonly<IGridHelperExternalFilterOwnProps>) => {
     return (
         <React.Fragment>
             <span style={{ padding: '5px' }}>Search: </span>
@@ -565,7 +623,7 @@ const ExternalFilter = (props) => {
     );
 };
 // Expand/Collapse All Groups button
-const ExpandCollapseButton = (props) => {
+const ExpandCollapseButton = (props: Readonly<GridHelperExpandCollapseButtonOwnProps>) => {
     return (
         <Button
             onClick={props.onClick}
@@ -578,12 +636,12 @@ const ExpandCollapseButton = (props) => {
 };
 
 // Columns show/hide
-const ColumnsButton = (props) => {
+const ColumnsButton = (props: Readonly<IGridHelperColumnsButtonOwnProps>) => {
     return <ConfiguratorButtonBase {...props} icon={columnsIcon} title="Show/Hide Columns" />;
 };
 
 // Settings button
-const ConfiguratorButton = (props) => {
+const ConfiguratorButton = (props: Readonly<IGridHelperConfiguratorButtonOwnProps>) => {
     return <ConfiguratorButtonBase {...props} icon={gearIcon} title="Settings" />;
 };
 
@@ -592,22 +650,22 @@ const ConfiguratorButton = (props) => {
 // props.icon is the name of the button icon
 // props.title sets the title of the button
 // props.onChange returns the toggled option/property
-const ConfiguratorButtonBase = (props) => {
+const ConfiguratorButtonBase = (props: Readonly<IGridHelperColumnsButtonOwnProps|IGridHelperConfiguratorButtonOwnProps) => {
     const anchor = React.useRef(null);
     const [show, setShow] = React.useState(false);
     const onClick = () => {
         setShow(!show);
     };
 
-    const onChange = (ev) => {
-        let setting = ev.target.element.attributes['data-attr'].value;
+    const onChange = (ev: CheckboxChangeEvent) => {
+        let setting = ev.target.element?.attributes['data-attr'].value ?? null;
         props.onChange(setting, ev.value);
     };
 
     React.useEffect(() => {
-        const onMouseDown = (event) => {
+        const onMouseDown = (event: MouseEvent) => {
             let wrappingEl = document.querySelector('.configurator-wrap-element');
-            if (wrappingEl && !wrappingEl.contains(event.target)) {
+            if (wrappingEl && !wrappingEl.contains(event.target as Node)) {
                 setShow(false);
             }
         };
