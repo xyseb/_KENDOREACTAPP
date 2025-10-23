@@ -101,6 +101,21 @@ interface GridHelperExpandCollapseButtonOwnProps {
 }
 
 /**
+ * On va cacher cette propriété pour la remplacer par la notre qui sera fortement typée
+ */
+type StronglyTypeDataItemType<P, T> = Omit<P, 'dataItem'> & {
+    dataItem: DataGridItem<T>;
+};
+
+/**
+ * Type fort générique des cellules suivant le type de donnée traité par la grille
+ * permet d'avoir le typage de nom donné sur le dataItem
+ */
+export type HCustomGridCellProps<T> = StronglyTypeDataItemType<GridCustomCellProps, T>;
+
+
+
+/**
  * fn de GridHelper
  * Permet d'obtenir la valeur d'une propriété au chemin (fieldName) indiqué
  * @param fieldName : chemin de la propriété
@@ -117,7 +132,7 @@ export function getNestedValue(fieldName: string | undefined, dataItem: any): an
 }
 
 /**
- * ✅fn de GridHelper
+ * (✅ fn de GridHelper)
  * Met en surbrillance toutes les occurrences du texte `filter` dans la chaîne `value`.
  *
  * Cette fonction est récursive : à chaque occurrence trouvée, elle découpe la chaîne,
@@ -145,7 +160,7 @@ const getHighlight = (value: string, filter: string): React.ReactNode => {
 };
 
 /**
- * ✅📛fn de GridHelper
+ * (❌ fn de GridHelper)
  * Mise en surbrillance d'un texte dans le html des enfants d'un contrôle
  * @param children les éléments enfants d'un contrôle
  * @param searchText le texte à rechercher
@@ -185,7 +200,7 @@ function highlightSearchTextInReactChildren(children: React.ReactNode, searchTex
 }
 
 /**
- * fn de GridHelper
+ * (fn de GridHelper)
  * Nombre d'item (incluant les éléments regroupés)
  * @param data Les items
  * @returns le nombre d'items
@@ -203,7 +218,7 @@ const getNumberOfItems = (data: any[], select: SelectDescriptor): number => {
 };
 
 /**
- * fn de GridHelper
+ * (fn de GridHelper)
  * Pour chaque groupe on crée une clé unique
  * @param data les informations sur les groupes (ou les items des groupes)
  */
@@ -216,7 +231,7 @@ const generateGroupIds = (data: any[]): void => {
     });
 };
 
-/** fn de GridHelper */
+/** (fn de GridHelper) */
 const getDataColumnsTitles = (gridChildren: React.ReactNode[]): Record<string, boolean> => {
     let columns: Record<string, boolean> = {};
     gridChildren.forEach((child: any) => {
@@ -232,7 +247,7 @@ const getDataColumnsTitles = (gridChildren: React.ReactNode[]): Record<string, b
 };
 
 /** 
- * fn de GridHelper
+ * (fn de GridHelper)
  * Récupère la valeur de la propriété "field" de chaque GridColumn de la grille
  * (utilisé pour l'export excel)
  * @param columns les colonnes de la grille grille (y compris les enfants ".children")
@@ -255,6 +270,11 @@ const getGridFieldColumns = (gridChildren: React.ReactNode[]): GridColumnProps[]
 
 const TOOLBAR_BUTTON_TYPE: NonNullable<ButtonProps['themeColor']> = 'primary';
 
+/**
+ * 
+ * @param props 
+ * @returns 
+ */
 export const GridHelper = (props: Readonly<IGridHelperOwnProps>) => {
     const {
         externalFilter,
