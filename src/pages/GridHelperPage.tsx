@@ -1,6 +1,6 @@
 import { Grid, GridColumn as Column, GridHeaderCellProps, GridCustomFooterCellProps } from '@progress/kendo-react-grid';
 //import { GridHelper } from '../helpers/GridHelper';
-import { GridHelper2 } from '../helpers/GridHelper2';
+import { GridHelperOld } from '../helpers/GridHelper';
 import products from '../resources/gd-products.ts';
 import './GridHelperPage.scss'
 import { render } from 'react-dom';
@@ -60,7 +60,7 @@ export default function GridHelperPage(): JSX.Element {
         <div className="grid-helper-page">
             <h1>Welcome grid-helper-page</h1>
             <br/>
-            <GridHelper2
+            <GridHelperOld
                 toolbarSettings={{
                     filterHighlights: true,
                     expandCollapseAllButton: true,
@@ -103,7 +103,7 @@ export default function GridHelperPage(): JSX.Element {
                     <Column field="UnitsInStock" title="In stock" filter="numeric" width="160px" />
                     <Column field="Discontinued" filter="boolean" width="180px" />
                 </Grid>
-            </GridHelper2>
+            </GridHelperOld>
         </div>
     );
 }

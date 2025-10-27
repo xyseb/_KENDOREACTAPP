@@ -9,7 +9,7 @@ import TestPage from './pages/TestPage';
 import TestDialogPage from './pages/TestDialogPage';
 import GridHelperPage from './pages/GridHelperPage';
 import GridHelperPage2 from './pages/GridHelperPage2';
-import GridHelperWrapperPage from './pages/GridHelpeWrapperPage';
+import GridHelperWrapperPage from './pages/GridHelperWrapperPage';
 import TabStripPage from './pages/TabStripPage';
 import './App.scss'
 

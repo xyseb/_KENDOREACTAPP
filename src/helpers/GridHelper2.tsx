@@ -133,7 +133,7 @@ const getGridFieldColumns = (gridChildren) => {
 
 const TOOLBAR_BUTTON_TYPE = 'primary';
 
-export const GridHelper = (props) => {
+export const GridHelper2 = (props) => {
     const {
         externalFilter,
         expandCollapseAllButton,
