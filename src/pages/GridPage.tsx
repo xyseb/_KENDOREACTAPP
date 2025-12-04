@@ -1,23 +1,10 @@
 import { Grid, GridColumn as Column, GridHeaderCellProps, GridCustomFooterCellProps } from '@progress/kendo-react-grid';
-//import { GridHelper } from '../helpers/GridHelper';
-import { GridHelper2 } from '../helpers/GridHelper2';
 import products from '../resources/gd-products.ts';
-import './GridHelperPage.scss'
-import { render } from 'react-dom';
+import './GridPage.scss'
 
-export default function GridHelperPage(): JSX.Element {
-
-    const onSelectedItemsChange = (ev) => {
-        console.log(ev.selectedItems);
-    };
+export default function GridPage(): JSX.Element {
 
     //BEGIN custom code
-    const HeaderCustomCell = (props) => {
-        console.log(props.children[0].props);
-        return <th {...props.thProps}>YO: {props.children}</th>;
-    };
-
-
     const CustomHeaderCell: React.FC<GridHeaderCellProps> = (headerCellProps) => {
         const { render, title } = headerCellProps;
     
@@ -57,45 +44,15 @@ export default function GridHelperPage(): JSX.Element {
     };
     //END custom code
     return (
-        <div className="grid-helper-page">
-            <h1>Welcome grid-helper-page</h1>
+        <div className="grid-page">
+            <h1>Welcome grid-page</h1>
             <br/>
-            <GridHelper2
-                toolbarSettings={{
-                    filterHighlights: true,
-                    expandCollapseAllButton: true,
-                    pdfExportButton: true,
-                    excelExportButton: true,
-                    externalFilter: true,
-                    showFeaturesConfigurator: true,
-                    showColumnsConfigurator: true
-                }}
-                initialDataState={{
-                    skip: 0,
-                    take: 10,
-                    sort: [
-                        {
-                            field: 'Id',
-                            dir: 'asc'
-                        }
-                    ],
-                    //group: [{ field: 'Category.CategoryName', dir: 'asc' }]
-                }}
-                onSelectedItemsChange={onSelectedItemsChange}
-                filterable={true}
-                dataItemKey={'ProductID'}
-                selectable={true}
-                groupable={true}
-                sortable={true}
-                pageable={{ buttonCount: 3, info: true, pageSizes: [5, 10, 50] }}
-                data={products}
-            >
                 <Grid style={{ height: '520px' }}
                             cells={{
                                 footerCell: TotalFooterCustomCell
                             }}
                     >
-                    <Column field={'selected'} width="65px" filterable={false} headerCell={CustomHeaderCell} />
+                    <Column field={'selected'} width="65px" filterable={false} cells={{headerCell: CustomHeaderCell}} />
                     <Column field="ProductID" title="ID" width="100px" filterable={false} />
                     <Column field="ProductName" title="Name" width="340px" />
                     <Column field="Category.CategoryName" title="Category Name" width="180px" />
@@ -103,7 +60,6 @@ export default function GridHelperPage(): JSX.Element {
                     <Column field="UnitsInStock" title="In stock" filter="numeric" width="160px" />
                     <Column field="Discontinued" filter="boolean" width="180px" />
                 </Grid>
-            </GridHelper2>
         </div>
     );
 }

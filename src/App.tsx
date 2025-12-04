@@ -5,11 +5,9 @@ import DrawerRouterContainer from './components/DrawerRouterContainer/DrawerRout
 import HomePage from './pages/HomePage';
 import SimplePage from './pages/SimplePage';
 import MultiNavPage from './pages/MultiNavPage';
-import TestPage from './pages/TestPage';
 import TestDialogPage from './pages/TestDialogPage';
-import GridHelperPage from './pages/GridHelperPage';
-import GridHelperPage2 from './pages/GridHelperPage2';
-import GridHelperWrapperPage from './pages/GridHelpeWrapperPage';
+import GridPage from './pages/GridPage';
+import HGridPage from './pages/HGridPage';
 import TabStripPage from './pages/TabStripPage';
 import './App.scss'
 
@@ -23,12 +21,10 @@ export default function App(): JSX.Element {
                   <Route path="/home" element={<HomePage />} />
                   <Route path="/simple" element={<SimplePage />} />
                   <Route path="/multi" element={<MultiNavPage />} />
-                  <Route path="/test" element={<TestPage />} />
                   <Route path="/test-dialog" element={<TestDialogPage />} />
-                  <Route path="/grid-helper" element={<GridHelperPage />} />
-                  <Route path="/grid-helper2" element={<GridHelperPage2 />} />
-                  <Route path="/grid-helper-wrapper" element={<GridHelperWrapperPage />} />
                   <Route path="/tabstrip" element={<TabStripPage />} />
+                  <Route path="/grid" element={<GridPage />} />
+                  <Route path="/hgrid" element={<HGridPage />} />
                   <Route path="*" element={<Navigate to={"/home"}/>} />
               </Routes>
           </DrawerRouterContainer>

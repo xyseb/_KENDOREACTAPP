@@ -5,21 +5,20 @@ import { Drawer, DrawerContent } from '@progress/kendo-react-layout';
 //     useLocalization
 // } from "@progress/kendo-react-intl";
 import { Header } from './../Header/Header';
-import { homeIcon, calendarIcon, userIcon, infoCircleIcon, gridLayoutIcon, thumbnailsUpIcon } from '@progress/kendo-svg-icons'
+import { homeIcon, pageHeaderSectionIcon, fileIcon, windowRestoreIcon, windowIcon, crosstabWizardIcon, crosstabIcon, thumbnailsUpIcon } from '@progress/kendo-svg-icons'
 
 const items = [
     { name: 'home', svgIcon: homeIcon, route: '/home', selected: true },
-    { name: 'simple', svgIcon: calendarIcon, route: '/simple', selected: false },
-    { name: 'multi', svgIcon: userIcon, route: '/multi', selected: false },
+    { name: 'simple', svgIcon: fileIcon, route: '/simple', selected: false },
+    { name: 'multi', svgIcon: pageHeaderSectionIcon, route: '/multi', selected: false },
     { separator: true },
-    { name: 'info', svgIcon: infoCircleIcon, route: '/test', selected: false },
-    { name: 'info', svgIcon: infoCircleIcon, route: '/test-dialog', selected: false },
+    { name: 'info', svgIcon: windowRestoreIcon, route: '/test-dialog', selected: false },
+    { name: 'info', svgIcon: windowIcon, route: '/test-dialog', selected: false },
     { separator: true },
-    { name: 'gridHelper', svgIcon: gridLayoutIcon, route: '/grid-helper', selected: false },
-    { name: 'gridHelper2', svgIcon: gridLayoutIcon, route: '/grid-helper2', selected: false },
     { name: 'tabStrip', svgIcon: thumbnailsUpIcon, route: '/tabstrip', selected: false },
     { separator: true },
-    { name: 'gridHelperWrapper', svgIcon: gridLayoutIcon, route: '/grid-helper-wrapper', selected: false },
+    { name: 'grid', svgIcon: crosstabIcon, route: '/grid', selected: false },
+    { name: 'hgrid', svgIcon: crosstabWizardIcon, route: '/hgrid', selected: false },
 ];
 
 export default function DrawerRouterContainer(props: any): JSX.Element {

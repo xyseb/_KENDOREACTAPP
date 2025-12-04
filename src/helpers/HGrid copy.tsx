@@ -1,5 +1,5 @@
 ﻿/* eslint-disable max-lines-per-function */
-import {Children, ReactElement, ReactNode, cloneElement, forwardRef, isValidElement, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {ReactElement, forwardRef, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import { AggregateDescriptor, SortDescriptor, /*State,*/ process } from '@progress/kendo-data-query';
 import { Button, ButtonHandle } from '@progress/kendo-react-buttons';
 import
@@ -58,351 +58,6 @@ import { useAtomValue } from 'jotai';
 import { utilisateurAtom } from '../atoms/UtilisateurAtom';
 
 import './HGrid.scss';
-
-
-export class DataGridItem<T>
-{
-    //isChecked: boolean;
-
-    /**
-     * Le nom de cette propriété doit être la même que pour les groupes item "IGroupItem" de la grille car visiblement c'est comme ça que fonctionne telerik
-     * Attention, si vous souhaitez renommer cette propriété, il faudra gérer "manuellement" la valeur de cette propriété car "setExpandedState" qu'on utilise actuellement
-     * ne met à jour que la propriété avec le nom "expanded"
-     */
-    //expanded: boolean;
-    /*
-     * Selection : soit un boolean indiquant qu'une ligne est sélectionnée via la dataItemKey
-     * ou un tableau d'index de colonne indiquant les cellules de la ligne qui sont sélectionnées
-     * Remarque : cette propriété travaille sur un index qui peut varier en fonction de la présentation de la grille introduisant
-     * des dysfonctionnements suivant que les colonnes de la grille soient groupées ou cachées
-     * Privilégier l'utilisation de l'interface ISelectedColumnByFieldName plutôt
-     */
-    //selected: boolean | number[] | undefined;
-
-    dataItem: T;
-    //groupId?: string | number;
-    //dataItemKey: string | number;
-    /**
-     * Construit un item de Grid
-     * @param dataItem TODO
-     * @param keySelector TODO
-     */
-    constructor(dataItem: T/*, keySelector: (d: T) => string | number*/)
-    {
-        //this.isChecked = false;
-        //this.expanded = false;
-        //this.selected = false;
-        this.dataItem = dataItem;
-        //this.dataItemKey = keySelector(dataItem);
-    }
-}
-
-/**
- * Permet d'obtenir la valeur d'une propriété au chemin (fieldName) indiqué
- * @param fieldName - Chemin de la propriété à lire (ex: "user.name")
- * @param dataItem - dataItem provenant de la grille sur lequel on recherche à lire
- * @returns la valeur indiquée par le fieldName dans dataItem
- * 
- * @example <caption>Code original de GridHelper avant modification (pour mémoire)</caption>
- * ```ts
- * export function getNestedValue(fieldName, dataItem) {
- *     const path = (fieldName || '').split('.');
- *     let data = dataItem;
- *     path.forEach((p) => {
- *         data = data ? data[p] : undefined;
- *     });
- *     return data;
- * }
- * ```
- */
-export function getNestedValue<T>(fieldName: string, dataItem: T): unknown | undefined {
-    const path = (fieldName || '').split('.');
-    let data: any = dataItem;
-
-    path.forEach((p) => {
-        data = data ? data[p] : undefined;
-    });
-
-    return data;
-}
-
-/**
- * Met en surbrillance toutes les occurrences du texte `filter` dans la chaîne `value`.
- *
- * Cette fonction est récursive : à chaque occurrence trouvée, elle découpe la chaîne,
- * insère un élément `<span>` avec un fond coloré, puis continue la recherche
- * sur le reste du texte.
- *
- * @param value - La chaîne de texte dans laquelle rechercher les occurrences.
- * @param filter - Le texte à mettre en surbrillance (non sensible à la casse).
- * @returns Un fragment React contenant le texte avec les occurrences mises en surbrillance.
- *
- * @example <caption>Code original de GridHelper avant modification (pour mémoire)</caption>
- * ```ts
- * const getHighlight = (value, filter) => {
- *     let index = value.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase());
- *     if (index >= 0) {
- *         let left = value.substring(0, index);
- *         let right = value.substring(index + filter.length, value.length);
- *         return (
- *             <React.Fragment>
- *                 {left}
- *                 <span style={{ backgroundColor: '#a8edb3' }}>
- *                     {value.substring(index, filter.length)}
- *                 </span>
- *                 {getHighlight(right, filter)}
- *             </React.Fragment>
- *         );
- *     }
- *     return value;
- * };
- * ```
- */
-const getHighlight = (value: string, filter: string): React.ReactNode => {
-    let index = value.toLocaleLowerCase().indexOf(filter.toLocaleLowerCase());
-    if (index >= 0) {
-        let left = value.substring(0, index); // fix hestia value.substr(0, index);
-        let right = value.substring(index + filter.length, value.length);
-        return (
-            <React.Fragment>
-                {left}
-                <span style={{ backgroundColor: '#a8edb3' }}>{value.substring(index, filter.length)/* fix hestia value.substr(index, filter.length)*/}</span>
-                {getHighlight(right, filter)}
-            </React.Fragment>
-        );
-    }
-    return value;
-};
-
-/**
- * (❌)
- * Mise en surbrillance d'un texte dans le html des enfants d'un contrôle
- * @param children les éléments enfants d'un contrôle
- * @param searchText le texte à rechercher
- * @returns le noeud html
- *
- * @example <caption>Code original de GridHelper avant modification (pour mémoire)</caption>
- * ```ts
- * function highlightSearchTextInReactChildren(children, searchText) {
- *     function highlightInNode(node) {
- *         if (typeof node === 'string') {
- *             const modifiedContent = node.replace(
- *                 new RegExp(`(${searchText})`, 'gi'),
- *                 '<span style="background-color:#a8edb3">$1</span>'
- *             );
- *             if (node !== modifiedContent) {
- *                 return <span dangerouslySetInnerHTML={{ __html: modifiedContent }} />;
- *             }
- *         } else if (React.isValidElement(node)) {
- *             if (!node.props.children?.map) {
- *                 return React.cloneElement(node, {}, highlightInNode(node.props.children));
- *             } else {
- *                 return React.cloneElement(
- *                     node,
- *                     {},
- *                     node.props.children?.map((ch) => highlightInNode(ch))
- *                 );
- *             }
- *         }
- *         return node;
- *     }
- *     return React.Children.map(children, (child) => highlightInNode(child));
- * }
- * ```
- */
-function highlightSearchTextInReactChildren(children: React.ReactNode, searchText: string): React.ReactNode {
-    /**
-     * Mise en surbrillance d'un texte donné dans un node
-     * @param node le noeud dans lequel on souhaite appliquer la surbrillance
-     * @returns le noeud react
-     */
-    function highlightInNode(node: React.ReactNode): React.ReactNode {
-        if (typeof node === 'string') {
-            const modifiedContent = node.replace(
-                new RegExp(`(${searchText})`, 'gi'),
-                '<span style="background-color:#a8edb3">$1</span>'
-            );
-            if (node !== modifiedContent) {
-                return <span dangerouslySetInnerHTML={{ __html: modifiedContent }} />;
-            }
-        } else if (React.isValidElement(node)) {
-            if (!node.props.children?.map) {
-                return React.cloneElement(node, {}, highlightInNode(node.props.children));
-            } else {
-                return React.cloneElement(
-                    node,
-                    {},
-                    node.props.children?.map((ch: React.ReactNode) => highlightInNode(ch))
-                );
-            }
-        }
-        return node;
-    }
-    return React.Children.map(children, (child: React.ReactNode) => {
-        return highlightInNode(child);
-    });
-}
-
-/**
- * (fn de GridHelper)
- * Nombre d'item (incluant les éléments regroupés)
- * @param data Les items ou groupes de la grille
- * @param select - Sélecteur KendoReact pour déterminer les éléments sélectionnés
- * @returns le nombre total d'items
- *
- * @example <caption>Code original avant modification pour mémoire</caption>
- * ```ts
- * const getNumberOfItems = (data, select) => {
- *     let count = 0;
- *     data.forEach((item) => {
- *         if (item.items) {
- *             count = count + getNumberOfItems(item.items, select);
- *         } else {
- *             count++;
- *         }
- *     });
- *     return count;
- * };
- * ```
- */
-function getNumberOfItems<T>(data: Array<T | (GroupResult & { items?: Array<T | GroupResult> })>, select: SelectDescriptor): number {
-    let count = 0;
-    data.forEach((item) => {
-        if (item.items) {
-            count = count + getNumberOfItems(item.items, select);
-        } else {
-            count++;
-        }
-    });
-    return count;
-}
-
-/**
- * (fn de GridHelper)
- * Pour chaque groupe dans `data`, crée une clé unique `groupId`.
- * Fonction récursive pour gérer tous les niveaux de sous-groupes.
- *
- * @param data - Les informations sur les groupes ou les items des groupes
- *
- * @example <caption>Code original avant modification pour mémoire</caption>
- * ```ts
- * const generateGroupIds = (data) => {
- *     data.forEach((item) => {
- *         if (item.aggregates) {
- *             item.groupId = item.field + '_' + item.value;
- *             generateGroupIds(item.items);
- *         }
- *     });
- * };
- * ```
- */
-function generateGroupIds<T>(data: Array<T | (GroupResult & { items?: Array<T | GroupResult> })>): void {
-    data.forEach((item) => {
-        // Vérifie si l'objet est un groupe (possède des agrégats)
-        if ('aggregates' in item && item.aggregates) {
-            item.groupId = `${item.field}_${item.value}`;
-            // Récursion sur les sous-éléments
-            if ('items' in item && item.items) {
-                generateGroupIds(item.items);
-            }
-        }
-    });
-}
-
-/**
- * Récupère les titres des colonnes visibles d'une grille KendoReact sous forme de lookup.
- *
- * Parcourt les enfants du Grid et ne retient que ceux de type `KendoReactGridColumn`
- * ayant un champ `field` défini et différent de 'selected', car les colonnes de type
- * 'selected' sont généralement utilisées pour les checkbox de sélection et ne représentent
- * pas des colonnes de données à afficher ou configurer.
- *
- * Chaque titre devient une clé dans l'objet retourné, avec pour valeur `true`. Ce lookup
- * sert à gérer facilement l'état de visibilité des colonnes dans GridHelper
- * (affichage conditionnel, configurateur de colonnes, export, etc.).
- *
- * @param gridChildren - Les enfants de la grille (ReactNode[])
- * @returns Un lookup avec les titres des colonnes visibles comme clés et `true` comme valeurs
- *
- * @example <caption>Code original avant modification pour mémoire</caption>
- * ```ts
- * const getDataColumnsTitles = (gridChildren) => {
- *     let columns = {};
- *     gridChildren.forEach((child) => {
- *         if (
- *             child.type.displayName === 'KendoReactGridColumn' &&
- *             child.props.field &&
- *             child.props.field !== 'selected'
- *         ) {
- *             columns[child.props.title ?? child.props.field] = true;
- *         }
- *     });
- *     return columns;
- * };
- * ```
- */
-function getVisibleColumnTitles(gridChildren: React.ReactNode[]): Record<string, true> {
-    const columns: Record<string, true> = {};
-
-    gridChildren.forEach((child: any) => {
-        if (
-            child.type?.displayName === 'KendoReactGridColumn' &&
-            child.props?.field &&
-            child.props.field !== 'selected'
-        ) {
-            columns[child.props.title ?? child.props.field] = true;
-        }
-    });
-
-    return columns;
-}
-
-/** 
- * * Récupère les propriétés des colonnes “données” d'une grille KendoReact.
- *
- * Parcourt les enfants de la grille et ne retient que ceux de type `KendoReactGridColumn`
- * avec un champ `field` défini et différent de 'selected', car les colonnes de type
- * 'selected' correspondent à des checkbox de sélection et ne sont pas des colonnes de données.
- *
- * Le résultat est un tableau des `props` de ces colonnes, pratique pour
- * l'export Excel, PDF, ou toute autre opération nécessitant de connaître les colonnes réelles.
- *
- * @param gridChildren - Les enfants de la grille (ReactNode[])
- * @returns Un tableau des props des colonnes de données (GridColumnProps)
- *
- * @example <caption>Code original avant modification pour mémoire</caption>
- * ```ts
- * const getGridFieldColumns = (gridChildren) => {
- *     let fieldColumns: Array<any> = [];
- *     gridChildren.map((child: any) => {
- *         if (
- *             child.type.displayName === 'KendoReactGridColumn' &&
- *             child.props &&
- *             child.props.field &&
- *             child.props.field !== 'selected'
- *         ) {
- *             fieldColumns.push(child.props);
- *         }
- *     });
- *     return fieldColumns;
- * };
- * ```
- */
-function getVisibleGridColumns(gridChildren: React.ReactNode[]): GridColumnProps[] {
-    const fieldColumns: GridColumnProps[] = [];
-
-    gridChildren.forEach((child: any) => {
-        if (
-            child.type?.displayName === 'KendoReactGridColumn' &&
-            child.props?.field &&
-            child.props.field !== 'selected'
-        ) {
-            fieldColumns.push(child.props);
-        }
-    });
-
-    return fieldColumns;
-}
 
 
 /**
@@ -468,8 +123,7 @@ const ExpandCollapseButton = (props: Readonly<IExpandCollapseButtonOwnProps>): J
 interface IColumnsButtonOwnProps
 {
     options: IDictionary<boolean>;
-    //columnsAPlatProps: IGridColumnPropsExtended[];
-    flatColumns: IFlatColumn[];
+    columnsAPlatProps: IGridColumnPropsExtended[];
     onChange: (setting: string, checkBoxValue: boolean) => void;
 }
 
@@ -478,49 +132,6 @@ interface IConfiguratorButtonBaseOwnProps extends IColumnsButtonOwnProps
     title: string;
     icon?: JSX.Element;
 }
-
-///////////////////////////////////////////////////////////////////////////
-interface IFlatColumn {
-    field: string;
-    title: string;
-    parentTitle?: string;
-    original: HGridColumnElement;
-}
-
-function flattenColumns(
-    cols: HGridColumnElement[],
-    parentTitle?: string
-): IFlatColumn[] {
-    const out: IFlatColumn[] = [];
-
-    cols.forEach(col => {
-        const props = col.props as GridColumnProps;
-
-        if (props.field) {
-            out.push({
-                field: props.field,
-                title: props.title ?? props.field,
-                parentTitle,
-                original: col,
-            });
-        }
-
-        const children = props.children;
-        if (children) {
-            const childArray = Array.isArray(children) ? children : [children];
-            const subCols = childArray.filter(
-                c => isValidElement(c)
-            ) as HGridColumnElement[];
-
-            out.push(
-                ...flattenColumns(subCols, props.title)
-            );
-        }
-    });
-
-    return out;
-}
-/////////////////////////////////////////////////////////////////////////////
 
 /**
  * Bouton avec popup qui montre toutes les propriétés d'un objet
@@ -577,14 +188,14 @@ const ConfiguratorButtonBase = (props: Readonly<IConfiguratorButtonBaseOwnProps>
 
     /**
      * Gere le contenu de la Popup Afficher/Cacher les colonnes
-     *z/
+     */
     const getPopupContent = useCallback((): ReactElement[] =>
     {
         let parentTitleOld: string = "";
         return (Object.entries(props.options).map(([key, value], index) =>
         {
             const isVisible = value;
-            //const colProps: IGridColumnPropsExtended = props.columnsAPlatProps.filter(c => c.field === key)[0];
+            const colProps: IGridColumnPropsExtended = props.columnsAPlatProps.filter(c => c.field === key)[0];
             const parentTitle = colProps?.parentColProps?.title ?? "";
 
             if (colProps?.isHiddenInColumnConfigurator)
@@ -616,46 +227,7 @@ const ConfiguratorButtonBase = (props: Readonly<IConfiguratorButtonBaseOwnProps>
                 </div>
             );
         }));
-    }, [props]);*/
-    const getPopupContent = useCallback((): ReactElement[] => {
-        let parentTitleOld = "";
-
-        return Object.entries(props.options).map(([key, isVisible], index) => {
-
-            const colProps = props.flatColumns.find(c => c.field === key);
-            if (!colProps) return <div key={index}></div>;
-
-            const parentTitle = colProps.parentTitle ?? "";
-
-            let parentDisplayed: ReactElement = <></>;
-
-            if (parentTitle !== parentTitleOld) {
-                parentDisplayed = (
-                    <span className="parent-title" key={`parent-${index}`}>
-                        {parentTitle}
-                    </span>
-                );
-            }
-
-            parentTitleOld = parentTitle;
-
-            return (
-                <div key={index}>
-                    {parentDisplayed}
-                    <div className="column">
-                        <div className="check-box">
-                            <Checkbox
-                                value={isVisible}
-                                onChange={ev => props.onChange(key, ev.value)}
-                                data-attr={key}
-                            />
-                        </div>
-                        <span className="label">{colProps.title}</span>
-                    </div>
-                </div>
-            );
-        });
-    }, [props/*.options, props.onChange, props.flatColumns*/]);
+    }, [props]);
 
     return (
         <div className="configurator-button-base">
@@ -770,12 +342,12 @@ interface IHGridOwnProps<T, K extends keyof T> extends Omit<GridProps,
     selectable?: HSelectable;
 
     //filterable?: boolean; // INHERIT
-    //groupable?: boolean; //A REVOIR
-    //sortable?: boolean; // A REVOIR
-    //pageable?: IPageable; // A REVOIR
+    groupable?: boolean; //A REVOIR
+    sortable?: boolean; // A REVOIR
+    pageable?: IPageable; // A REVOIR
     //resizable?: boolean; // INHERIT
     //reorderable?: boolean; // INHERIT
-    //navigatable?: boolean | NavigatableSettings; // A REVOIR
+    navigatable?: boolean | NavigatableSettings; // A REVOIR
 
     isToolbarPanelVisible?: boolean;
     //keySelector: (d: T) => string | number;
@@ -862,7 +434,6 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
     const [data, setData] = useState(unfilteredData);
     const dataItemsSelection = useRef<T[] | { dataItem: T, colFields: string[] }[]>([]);
 
-    const getColumnFieldByIndex = (index: number) => "ok";
     const handleSelectionChange = (
         event: GridSelectionChangeEvent,
         onSelectCallback?: (selection: T[] | { dataItem: T, colFields: string[] }[]) => void
@@ -1030,14 +601,6 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
     const columns = useMemo(() => props.children ?? props.hColumnsProps.map((c, i) => <GridColumn key={i} {...c} />)
     , [props.hColumnsProps, props.children]);
 
-    /////////////////////////////////////////////////////////////////////////
-    const columnsArray = useMemo(() => Array.isArray(columns) ? columns : [columns], [columns]);
-
-    const flatColumns = useMemo(
-        () => flattenColumns(columnsArray),
-        [columnsArray]
-    );
-    ////////////////////////////////////////////////////////////////////////////
 
     const refInputExternalFilter = useRef<InputHandle>(null);
     const [filterValue, setFilterValue] = useState<string | null>(null);// TODO peut être null remplacer par undefined
@@ -1051,18 +614,18 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
 
     useEffect(() =>
     {
-        const dataGridItems = props.data.map(d => new DataGridItem(d/*, props.keySelector*/));
+        const dataGridItems = props.data.map(d => new DataGridItem(d, props.keySelector));
         setUnfilteredData(dataGridItems);
         setData(dataGridItems);
-    }, [props.data/*, props.keySelector*/]);
+    }, [props.data, props.keySelector]);
 
     /**
      * Les props de colonnes de dernier niveau
-     *z/
+     */
     const colPropsAPlat = useMemo<IGridColumnPropsExtended[]>(() =>
     {
         return miseAPlatColonnes(columns.map(c => c.props));
-    }, [columns]);*/
+    }, [columns]);
 
     /**
      * Callback de renvoi un objet ayant comme propriété le nom des colonnes ou le nom des fields des colonnes
@@ -1071,7 +634,7 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
      * @param callback Callback recevant les paramètres de la grille (y compris les enfants ".children") et retournant le dictionaire noms de colonnes/noms de champs
      * @param deps dépendance de useCallback
      * @returns version memoized du callback
-     *z/
+     */
     const initColumnsVisibility = useCallback((colonnesPropsAPlat: IGridColumnPropsExtended[]): IDictionary<boolean> =>
     {
         const columnsVisibilityDictionary: IDictionary<boolean> = {};
@@ -1099,14 +662,14 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
         });
 
         return columnsVisibilityDictionary;
-    }, []);*/
+    }, []);
 
     const [columnsVisibility, setColumnsVisibility] = useState<IDictionary<boolean>>({});
     const [columnsState, setColumnsState] = useState(getDataColumnsTitles(/*GridProps.children*/columns));
-    /*useEffect(() =>
+    useEffect(() =>
     {
         setColumnsVisibility(initColumnsVisibility(colPropsAPlat));
-    }, [setColumnsVisibility, initColumnsVisibility, colPropsAPlat]);*/
+    }, [setColumnsVisibility, initColumnsVisibility, colPropsAPlat]);
 
     /*
      * Selection : soit un boolean indiquant qu'une ligne est sélectionnée via la dataItemKey
@@ -1149,7 +712,7 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
             sortsNew = [...sorts.map(s => ({ ...s }))];
             sorts.forEach(sort =>
             {
-                const col = columnsArray.find(c => c.props.field === sort.field);
+                const col = columns.find(c => c.props.field === sort.field);
                 if (col)
                 {
                     const colProps = col.props;
@@ -1190,7 +753,7 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
         {
             groups.forEach(group =>
             {
-                const col = columnsArray.find(c => c.props.field === group.field); //Ex columns.find
+                const col = columns.find(c => c.props.field === group.field);
                 if (col)
                 {
                     const colProps = col.props;
@@ -1210,7 +773,7 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
             });
         }
         setDataState({ ...ev.dataState, sort: sortsNew });
-    }, [columnsArray]);
+    }, [columns]);
 
     /**
      * Callback de la fonction sur l'évenement onExpandeChange de la grille
@@ -1707,8 +1270,7 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
                     <div>
                         {toolbarSettings.showColumnsConfigurator && (
                             <ColumnsButton onChange={updateColumns}
-                                //columnsAPlatProps={colPropsAPlat /*TODO encore à faire ?*/}
-                                flatColumns={flatColumns}
+                                columnsAPlatProps={colPropsAPlat /*TODO encore à faire ?*/}
                                 options={columnsVisibility} />
                         )}
                     </div>
@@ -1716,7 +1278,7 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
             </GridToolbar>
         );
 
-        const children = columnsArray.map((col, index) =>
+        const children = columns.map((col, index) =>
         {
             let isGroupeDeColonne: boolean = false;
             let isAuMoinsUneSousColonneVisible: boolean = false;
@@ -1780,7 +1342,7 @@ export default function HGrid<T, K extends keyof T>(props: Readonly<HGridOwnProp
 
         return children;
     }, [/*traduction,*/ columnsVisibility, /*collapsedState,*/ filterValue, toolbarSettings, columns, isGroupable, headerSelectionValue, /*newProps.selectedField,*/
-        onExternalFilterChange, /*onGroupsToggle,*/ updateColumns, isToolbarPanelVisible, /*colPropsAPlat,*/ hasCollapsed, onGroupsCollapse, onGroupsExpand]); // TODO SD20250218 voir le deprecated de newProps.selectedField
+        onExternalFilterChange, /*onGroupsToggle,*/ updateColumns, isToolbarPanelVisible, colPropsAPlat, hasCollapsed, onGroupsCollapse, onGroupsExpand]); // TODO SD20250218 voir le deprecated de newProps.selectedField
 
     const gridRef = useRef(null);
 
