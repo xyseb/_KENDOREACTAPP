@@ -1,11 +1,11 @@
-import { Grid, GridColumn as Column, GridHeaderCellProps, GridCustomFooterCellProps } from '@progress/kendo-react-grid';
+import { Grid, GridColumn as Column, GridHeaderCellProps, GridCustomFooterCellProps, GridCustomHeaderCellProps } from '@progress/kendo-react-grid';
 import products from '../resources/gd-products.ts';
 import './GridPage.scss'
 
 export default function GridPage(): JSX.Element {
 
     //BEGIN custom code
-    const CustomHeaderCell: React.FC<GridHeaderCellProps> = (headerCellProps) => {
+    const CustomHeaderCell: React.FC<GridCustomHeaderCellProps> = (headerCellProps) => {
         const { render, title } = headerCellProps;
     
         const handleClick = () => {
@@ -13,13 +13,13 @@ export default function GridPage(): JSX.Element {
         };
     
         return (
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <button onClick={handleClick} style={{ cursor: "pointer" }}>
-              🔘
-            </button>
-            {/* Utilisation du rendu par défaut, si fourni */}
-            {render ? render(null, headerCellProps) : <span>{title}</span>}
-          </div>
+            <th {...headerCellProps.thProps}>
+                <button onClick={handleClick} style={{ cursor: "pointer" }}>
+                🔘
+                </button>
+                {/* Utilisation du rendu par défaut, si fourni */}
+                {render ? render(null, headerCellProps) : <span>{title}</span>}
+            </th>
         );
       };
 

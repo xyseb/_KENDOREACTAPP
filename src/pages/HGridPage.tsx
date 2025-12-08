@@ -1,4 +1,4 @@
-import { Grid, GridColumn as Column, GridHeaderCellProps, GridCustomFooterCellProps } from '@progress/kendo-react-grid';
+import { GridColumn } from '@progress/kendo-react-grid';
 import products from '../resources/gd-products.ts';
 import './HGridPage.scss'
 import HGrid from '../helpers/HGrid.tsx';
@@ -6,58 +6,18 @@ import HGrid from '../helpers/HGrid.tsx';
 export default function HGridPage(): JSX.Element {
 
  
-     const onSelectedItemsChange = (ev) => {
+    /*const onSelectedItemsChange = (ev) => {
         console.log(ev.selectedItems);
-    };
+    };*/
 
-    //BEGIN custom code
-    const CustomHeaderCell: React.FC<GridHeaderCellProps> = (headerCellProps) => {
-        const { render, title } = headerCellProps;
-    
-        const handleClick = () => {
-          alert(`Action sur ${title}`);
-        };
-    
-        return (
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <button onClick={handleClick} style={{ cursor: "pointer" }}>
-              🔘
-            </button>
-            {/* Utilisation du rendu par défaut, si fourni */}
-            {render ? render(null, headerCellProps) : <span>{title}</span>}
-          </div>
-        );
-      };
-
-    const TotalFooterCustomCell = (props: GridCustomFooterCellProps) => {
-        const field = props.field || '';
-        const min = products.reduce((acc, current) => Math.min(acc, current[field]), Number.MAX_VALUE);
-        const max = products.reduce((acc, current) => Math.max(acc, current[field]), 0);
-        return props.field === 'UnitPrice' ? (
-            <td colSpan={props.colSpan} style={{ ...props.style, color: '#fac390' }}>
-                min: {min}, max: {max}
-            </td>
-        ) : (
-            <td
-                {...props.tdProps}
-                style={{
-                    color: '#f97e6d'
-                }}
-            >
-                {props.index}
-            </td>
-        );
-    };
-    //END custom code
     return (
         <div className="h-grid-page">
             <h1>Welcome h-grid-page</h1>
             <br/>
                 <HGrid
-                    data={products}
                     //columnsProps={}
+                    data={products}
                     dataItemKey='ProductID'
-                    //dataItemKey={'ProductID'}
                     hToolbarSettings={{
                         excelExportButton: true,
                         expandCollapseAllButton: true,
@@ -79,23 +39,23 @@ export default function HGridPage(): JSX.Element {
                         group: [{ field: 'Category.CategoryName', dir: 'asc' }]
                     }}
                     //onSelectedItemsChange={onSelectedItemsChange}
-                    filterable={true}
                     selectable={{
                         selectMode: "Cell",
                         onSelect: () => {},
                         select: {}
                     }}
+                    filterable={true}
                     groupable={true}
                     sortable={true}
                     pageable={{ buttonCount: 3, info: true, pageSizes: [5, 10, 50] }}
                 >
-                    <Column columnType="checkbox" width="65px" filterable={false} />
-                    <Column field="ProductID" title="ID" width="100px" filterable={false} />
-                    <Column field="ProductName" title="Name" width="340px" />
-                    <Column field="Category.CategoryName" title="Category Name" width="180px" />
-                    <Column field="UnitPrice" title="Price" filter="numeric" width="160px" />
-                    <Column field="UnitsInStock" title="In stock" filter="numeric" width="160px" />
-                    <Column field="Discontinued" filter="boolean" width="180px" />
+                    <GridColumn columnType="checkbox" width="65px" filterable={false} />
+                    <GridColumn field="ProductID" title="ID" width="100px" filterable={false} />
+                    <GridColumn field="ProductName" title="Name" width="340px" />
+                    <GridColumn field="Category.CategoryName" title="Category Name" width="180px" />
+                    <GridColumn field="UnitPrice" title="Price" filter="numeric" width="160px" />
+                    <GridColumn field="UnitsInStock" title="In stock" filter="numeric" width="160px" />
+                    <GridColumn field="Discontinued" filter="boolean" width="180px" />
                 </HGrid>
         </div>
     );
