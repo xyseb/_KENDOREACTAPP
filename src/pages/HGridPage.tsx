@@ -15,10 +15,11 @@ export default function HGridPage(): JSX.Element {
             <h1>Welcome h-grid-page</h1>
             <br/>
                 <HGrid
+                    className='cyan'
                     //columnsProps={}
                     data={products}
                     dataItemKey='ProductID'
-                    hToolbarSettings={{
+                    hToolbarSettingsProp={{
                         excelExportButton: true,
                         expandCollapseAllButton: true,
                         externalFilter: true,
@@ -39,14 +40,18 @@ export default function HGridPage(): JSX.Element {
                         group: [{ field: 'Category.CategoryName', dir: 'asc' }]
                     }}
                     //onSelectedItemsChange={onSelectedItemsChange}
-                    selectable={{
+                    hSelectableProp={{
                         selectMode: "Cell",
                         onSelect: () => {},
-                        select: {}
+                        select: {},
+                        defaultSelect: undefined
                     }}
-                    filterable={true}
-                    groupable={true}
-                    sortable={true}
+                    hSortableProp={{
+                        mode: "single",
+                    }}
+                    //filterable={true}
+                    //groupable={true}
+                    ///sortable={true}
                     pageable={{ buttonCount: 3, info: true, pageSizes: [5, 10, 50] }}
                 >
                     <GridColumn columnType="checkbox" width="65px" filterable={false} />

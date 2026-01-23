@@ -7,6 +7,7 @@ import { locales } from './../../resources/locales';
 
 import { SvgIcon } from '@progress/kendo-react-common';
 import { menuIcon } from '@progress/kendo-svg-icons';
+import "./Header.scss";
 
 export const Header = (props: any) => {
     const { onButtonClick } = props;
@@ -17,16 +18,15 @@ export const Header = (props: any) => {
     const onLanguageChange = () => {}
     return (
         <header className="header">
-            <div className="nav-container">
                 <div className="menu-button">
                     <SvgIcon icon={menuIcon} onClick={onButtonClick} />
                 </div>
 
                 <div className="title">
-                    <h1>Mon jolie site</h1>
+                    <span>Mon jolie site</span>
                 </div>
                 <div className="settings">
-                    <span style={{ padding: '20px' }}>Langage</span>
+                    <span>Langage</span>
                     <DropDownList
                         textField={'locale'}
                         dataItemKey={'localeId'}
@@ -35,7 +35,6 @@ export const Header = (props: any) => {
                         onChange={onLanguageChange}
                     />
                 </div>
-            </div>
         </header>
     );
 }

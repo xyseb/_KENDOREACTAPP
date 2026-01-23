@@ -1,0 +1,31 @@
+.home-page {
+    padding: 24px;
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 80px);
+        align-items: center;
+        justify-items: center;
+        margin-bottom: 48px;
+        border: 1px solid lightgrey;
+        padding: 0 25%;
+    }
+
+    button {
+        width: 100px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    h3 { color: lightgrey }
+
+}
+
+.tooltip-content {
+    background: #333;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 0.75em;
+}

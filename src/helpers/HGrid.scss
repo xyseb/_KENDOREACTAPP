@@ -1,2 +1,31 @@
 ﻿.h-grid {
+    &.cyan {
+        .grid-toolbar {
+            background-color: cyan;;
+        }
+    }
+    
+    .grid-toolbar {
+        display: flex;
+        border: 1px solid magenta;
+
+        .expand-group-button {
+            border: 1px solid pink;
+            width: 20px;
+            height: 20px;
+            background-color: bisque;
+        }
+
+        .search-panel {
+            display: flex;
+            background-color: lightskyblue;
+            border: 1px solid red;
+        }
+
+        .control-panel {
+            display: flex;
+            background-color: lightcyan;
+            border: 1px solid yellow;
+        }
+    }
 }

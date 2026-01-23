@@ -1,0 +1,25 @@
+/*@import "~@progress/kendo-theme-default/dist/all.scss";
+@import "./themes/my-kendo-theme-fluent/index.scss";*/
+@use "@progress/kendo-theme-fluent/scss/all.scss" as *;
+// Import the entire theme
+//@use "@progress/kendo-theme-classic/scss/all.scss" as *;
+// Import the entire theme
+//@use "@progress/kendo-theme-material/scss/all.scss" as *;
+// Import the entire theme
+//@use '@progress/kendo-theme-bootstrap/scss/all.scss' as *;
+// Import the entire theme
+//@use '@progress/kendo-theme-default/scss/all.scss' as *;
+// Import the Default theme and its Ocean Blue A11y swatch.
+//@use "@progress/kendo-theme-default/dist/default-ocean-blue-a11y.scss" as *;
+
+html {
+    overflow: hidden;
+
+    body {
+        margin: 0;
+
+        .k-drawer-items {
+            padding: 0;
+        }
+    }
+}

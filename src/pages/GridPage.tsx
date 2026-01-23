@@ -51,6 +51,8 @@ export default function GridPage(): JSX.Element {
                             cells={{
                                 footerCell: TotalFooterCustomCell
                             }}
+                        size="small"
+                        data={products}
                     >
                     <Column field={'selected'} width="65px" filterable={false} cells={{headerCell: CustomHeaderCell}} />
                     <Column field="ProductID" title="ID" width="100px" filterable={false} />
