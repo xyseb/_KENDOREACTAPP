@@ -1,0 +1,46 @@
+.h-tooltip-move-button {
+    position: relative;
+    display: inline-block;
+
+    :first-child {
+        position: relative;
+        touch-action: pan-y;
+    }
+
+    .tooltip {
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 30px;
+        font-weight: 700;
+        border: 2px solid black;
+        border-radius: 50%;
+        
+        &.right { left: 100%; }
+        &.left { left: 0; }
+        
+        &.opening.right { animation: slide-in-right 200ms forwards; }
+        &.opening.left { animation: slide-in-left 200ms forwards; }
+        &.exiting.right { animation: slide-out-right 200ms forwards; }
+        &.exiting.left { animation: slide-out-left 200ms forwards; }
+    }
+    
+    .tooltip-overlay {
+        position: fixed;
+        z-index: 10;
+        top:0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    @keyframes slide-in-right { from { opacity: 0; transform: translateX(0); } to { opacity: 1; transform: translateX(10px); } }
+    @keyframes slide-in-left { from { opacity: 0; transform: translateX(-100%); } to { opacity: 1; transform: translateX(calc(-100% - 10px)); } }
+    @keyframes slide-out-right { from { opacity: 1; transform: translateX(10px); } to { opacity: 0; transform: translateX(10px); } }
+    @keyframes slide-out-left { from { opacity: 1; transform: translateX(calc(-100% - 10px)); } to { opacity: 0; transform: translateX(calc(-100% - 10px)); } }
+}

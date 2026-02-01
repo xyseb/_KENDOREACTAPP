@@ -802,7 +802,7 @@
 // } from "react";
 // import { createPortal } from "react-dom";
 // import "./HTooltip.scss";
-// import { useIsTactile } from "../../hooks/UseIsTacltile";
+// import { useMediaQuery } from "../../hooks/useMediaQuery";
 
 // /* ================= TYPES ================= */
 
@@ -917,7 +917,7 @@
 //   const internalRef = useRef<HTMLElement>(null);
 //   const tooltipRef = useRef<HTMLDivElement>(null);
 
-//   const isTactile = useIsTactile();
+//   const isTactile = useMediaQuery().IsTouchScreen;
 
 //   const target = anchorRef?.current || internalRef.current;
 //   const isControlled = open !== undefined;
@@ -1094,7 +1094,7 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import "./HTooltip.scss";
-import { useIsTactile } from "../../hooks/UseIsTacltile";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 
 /* ================= TYPES ================= */
 
@@ -1193,7 +1193,7 @@ export const HTooltip: React.FC<TooltipProps> = ({
   /** 🔑 indique si l’ouverture vient du montage initial */
   const isInitialOpen = useRef(defaultOpen === true);
 
-  const isTactile = useIsTactile();
+  const isTactile = useMediaQuery().IsTouchScreen;
   const target = anchorRef?.current || internalRef.current;
   const isControlled = open !== undefined;
 

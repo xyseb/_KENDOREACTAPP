@@ -1,0 +1,67 @@
+.h-tooltip-move-button {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+
+    :first-child {
+        position: relative;
+        touch-action: pan-y;
+    }
+
+    .tooltip {
+        position: absolute;
+        z-index: 10001; // toujours vevant l'overlay
+        top: 0; // right ou left assigner par classe suplementaire
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        width: max-content;
+        height: 100%;
+        
+        &.right { left: 100%; }
+        &.left { left: 0; }
+        
+        &.opening.right { animation: slide-in-right 200ms forwards; }
+        &.opening.left { animation: slide-in-left 200ms forwards; }
+        &.exiting.right { animation: slide-out-right 200ms forwards; }
+        &.exiting.left { animation: slide-out-left 200ms forwards; }
+
+        :first-child {
+            background-color: rgba(2, 2, 2, 5%);
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            padding: 5px;
+
+            &.question-mark-icon {
+                padding:0;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 30px;
+                font-weight: 700;
+                border: 2px solid black;
+                border-radius: 50%;
+            }
+        }
+    }
+    
+    .tooltip-overlay {
+        position: fixed;
+        z-index: 10000; // Toujours devant tout contenu de la page
+        top:0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    @keyframes slide-in-right { from { opacity: 0; transform: translateX(0); } to { opacity: 1; transform: translateX(10px); } }
+    @keyframes slide-in-left { from { opacity: 0; transform: translateX(-100%); } to { opacity: 1; transform: translateX(calc(-100% - 10px)); } }
+    @keyframes slide-out-right { from { opacity: 1; transform: translateX(10px); } to { opacity: 0; transform: translateX(10px); } }
+    @keyframes slide-out-left { from { opacity: 1; transform: translateX(calc(-100% - 10px)); } to { opacity: 0; transform: translateX(calc(-100% - 10px)); } }
+}
