@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import TabTitle from './TabTitle';
-import './Tab1.scss'
+import './Tab3.scss'
 
-export default function Tab1(props: { isActive: boolean }): JSX.Element
+export default function Tab3(props: { isActive: boolean }): JSX.Element
 {
     /**
      * Compteur de renders REELS du composant.
@@ -27,7 +27,7 @@ export default function Tab1(props: { isActive: boolean }): JSX.Element
      * C’est la vérité terrain.
      */
     renderCount.current += 1;
-    console.log(`Tab1 ref >>> render réel n°${renderCount.current}`);
+    console.log(`Tab3 ref >>> render réel n°${renderCount.current}`);
 
     /**
      * Effect exécuté UNE SEULE FOIS.
@@ -35,11 +35,11 @@ export default function Tab1(props: { isActive: boolean }): JSX.Element
      */
     useEffect(() =>
     {
-        console.log("Tab1 >>> mounted");
+        console.log("Tab3 >>> mounted");
 
         return () =>
         {
-            console.log("Tab1 >>> demonté (NE DOIT PAS ARRIVER)");
+            console.log("Tab3 >>> demonté (NE DOIT PAS ARRIVER)");
         };
     }, []);
 
@@ -52,18 +52,18 @@ export default function Tab1(props: { isActive: boolean }): JSX.Element
         if (props.isActive)
         {
             displayCount.current += 1;
-            console.log(`Tab1 useEffect[props.isActive] >>> affiché ${displayCount.current} fois`);
+            console.log(`Tab3 useEffect[props.isActive] >>> affiché ${displayCount.current} fois`);
 
             // On force uniquement le re-render du H1
             forceRender(v => v + 1);
         }
     }, [props.isActive]);
 
-    console.log("Tab1 return")
+    console.log("Tab3 return")
     return (
-        <div className="tab1">
+        <div className="tab3">
             <TabTitle
-                label="Tab1"
+                label="Tab3"
                 displayCount={displayCount.current}
             />
             <p>Renders React réels : {renderCount.current}</p>
